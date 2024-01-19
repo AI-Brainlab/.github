@@ -1,7 +1,7 @@
 {
   "name": "BuildNPush Container to Azure",
   "description": "The workflow for build and push docker container to Azure Container Registry",
-  "iconName": "example-icon",
+  "iconName": "octicon share",
   "categories": [
       "Composer"
   ],
