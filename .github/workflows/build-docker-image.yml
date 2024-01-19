@@ -1,0 +1,22 @@
+name: build-docker-image.yml
+run-name: ${{ github.actor }} run this action
+
+on:
+  push:
+    tags:
+        - 'v*'
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: run `docker compose build`
+        run: docker compose build
+      - name: run `docker compose up -d`
+        run: docker compose up -d
+      - uses: azure/docker-login@v1
+        with:
+          login-server: '<login server>' # default: index.docker.io
+          username: '<username>'
+          password: '<password>'
