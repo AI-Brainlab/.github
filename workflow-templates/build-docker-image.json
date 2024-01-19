@@ -1,0 +1,12 @@
+{
+  "name": "BuildNPush Container to Azure",
+  "description": "The workflow for build and push docker container to Azure Container Registry",
+  "iconName": "example-icon",
+  "categories": [
+      "Composer"
+  ],
+  "filePatterns": [
+      "*.Dockerfile",
+      "docker-compose*"
+  ]
+}
