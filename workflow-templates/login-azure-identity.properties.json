@@ -1,0 +1,8 @@
+{
+  "name": "Login Azure with Identity",
+  "description": "The example of how to login to Azure using Managed Identity",
+  "iconName": "octicon sign-in",
+  "categories": [
+      "utilities"
+  ]
+}
