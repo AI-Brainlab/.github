@@ -12,6 +12,10 @@ Organization Owner
 - Sitthiwat
 - Akraradet Sinsamersuk
 
+Document
+========
+- [wiki](https://github.com/AI-Brainlab/.github/wiki)
+
 <!--
 
 **Here are some ideas to get you started:**
