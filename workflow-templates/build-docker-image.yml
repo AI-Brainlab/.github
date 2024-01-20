@@ -1,22 +1,41 @@
-name: build-docker-image.yml
-run-name: ${{ github.actor }} run this action
+name: BuildNPush to ACR
+run-name: ${{ github.actor }} created ${{ github.ref }}
 
 on:
+  workflow_dispatch:
   push:
     tags:
-        - 'v*'
+      - 'v*'
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    environment: template
     steps:
-      - uses: actions/checkout@v4
-      - name: run `docker compose build`
-        run: docker compose build
-      - name: run `docker compose up -d`
-        run: docker compose up -d
-      - uses: azure/docker-login@v1
+      - name: Azure login
+        uses: Azure/login@v1.6.0
         with:
-          login-server: '<login server>' # default: index.docker.io
-          username: '<username>'
-          password: '<password>'
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      # https://github.com/actions/checkout: will clone Git into the image
+      - uses: actions/checkout@v4
+      - name: Login to ACR
+        run: az acr login --name ${{ secrets.REGISTRY_NAME }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # Your image name
+          images: ${{ secrets.REGISTRY_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}
+          tags: type=semver,pattern={{raw}}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
