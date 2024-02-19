@@ -1,0 +1,81 @@
+gh api graphql -f query='
+query{
+  node(id: "PVT_kwDOCU5NV84AcKb4"){ 
+    ... on ProjectV2 {
+      items(first: 10) {
+        nodes{ 
+          id, 
+          type,
+          fieldValues(first: 100){
+            nodes{
+              ... on ProjectV2ItemFieldTextValue {
+                text
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldSingleSelectValue {
+                name
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldIterationValue {
+                title
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldNumberValue {
+                number,
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+            },
+            totalCount
+          },
+          content{
+            ... on DraftIssue {
+              assignees(first: 10) {
+                nodes{
+                  login
+                }
+              }
+            }
+            ...on Issue {
+              assignees(first: 10) {
+                nodes{
+                  login
+                }
+              }
+            }
+            ...on PullRequest {
+              assignees(first: 10) {
+                nodes{
+                  login
+                }
+              }
+            }
+          },
+        },
+        totalCount,
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+          hasPreviousPage
+        }
+      }
+    }
+  }
+}
+'
