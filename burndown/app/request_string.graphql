@@ -1,8 +1,7 @@
-gh api graphql -f query='
-query{
-  node(id: "PVT_kwDOCU5NV84AcKb4"){ 
+query($project_id: ID!, $item_number: Int!, $after: String!){
+  node(id: $project_id){ 
     ... on ProjectV2 {
-      items(first: 10) {
+      items(first: $item_number, after: $after) {
         nodes{ 
           id, 
           type,
@@ -40,28 +39,27 @@ query{
                   }
                 }
               }
-            },
-            totalCount
+            }
           },
           content{
             ... on DraftIssue {
               assignees(first: 10) {
                 nodes{
-                  login
+                login
                 }
               }
             }
             ...on Issue {
               assignees(first: 10) {
                 nodes{
-                  login
+                login
                 }
               }
             }
             ...on PullRequest {
               assignees(first: 10) {
                 nodes{
-                  login
+                login
                 }
               }
             }
@@ -78,4 +76,3 @@ query{
     }
   }
 }
-'

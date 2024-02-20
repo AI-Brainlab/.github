@@ -27,11 +27,12 @@ ENV PIPENV_VENV_IN_PROJECT=1
 RUN pip install --upgrade pip
 RUN pip install pipenv
 
+RUN apt install -y gh
 
-RUN --mount=type=bind,source=./app/Pipfile,target=Pipfile.json,readwrite \
-    --mount=type=bind,source=./app/Pipfile.lock,target=Pipfile.lock,readwrite \
-    # --mount=type=cache,target=/root/.pip \
-    pipenv install
+# RUN --mount=type=bind,source=./app/Pipfile,target=Pipfile,readwrite \
+#     --mount=type=bind,source=./app/Pipfile.lock,target=Pipfile.lock,readwrite \
+#     # --mount=type=cache,target=/root/.pip \
+#     pipenv install --skip-lock
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
