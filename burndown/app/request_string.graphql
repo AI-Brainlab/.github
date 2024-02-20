@@ -1,0 +1,78 @@
+query($project_id: ID!, $item_number: Int!, $after: String!){
+  node(id: $project_id){ 
+    ... on ProjectV2 {
+      items(first: $item_number, after: $after) {
+        nodes{ 
+          id, 
+          type,
+          fieldValues(first: 100){
+            nodes{
+              ... on ProjectV2ItemFieldTextValue {
+                text
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldSingleSelectValue {
+                name
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldIterationValue {
+                title
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldNumberValue {
+                number,
+                field {
+                  ... on ProjectV2FieldCommon {
+                    name
+                  }
+                }
+              }
+            }
+          },
+          content{
+            ... on DraftIssue {
+              assignees(first: 10) {
+                nodes{
+                login
+                }
+              }
+            }
+            ...on Issue {
+              assignees(first: 10) {
+                nodes{
+                login
+                }
+              }
+            }
+            ...on PullRequest {
+              assignees(first: 10) {
+                nodes{
+                login
+                }
+              }
+            }
+          },
+        },
+        totalCount,
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+          hasPreviousPage
+        }
+      }
+    }
+  }
+}
