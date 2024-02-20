@@ -1,0 +1,13 @@
+name: Octo Organization CI
+
+on: workflow_dispatch
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Change dir
+        run: cd burndown
+      - name: Run fetch
+        run: docker compose up --build
