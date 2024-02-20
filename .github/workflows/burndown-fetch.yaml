@@ -1,4 +1,4 @@
-name: Octo Organization CI
+name: Fetch Card to Repo
 
 on: workflow_dispatch
 
@@ -11,3 +11,5 @@ jobs:
         run: cd burndown
       - name: Run fetch
         run: docker compose up --build
+      - name: Check result
+        run: ls -la data
