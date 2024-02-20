@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Change dir
-        run: cd burndown
-      # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Run fetch
+        run: docker compose up --build
+        working-directory: ./burndown
+      - name: Check result
+        run: ls -la data
+        working-directory: ./burndown
+        # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-      - name: Run fetch
-        run: docker compose up --build
-      - name: Check result
-        run: ls -la data
