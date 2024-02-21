@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: .Dockerfile
     platform: linux/amd64
+    command: pipenv run python3 main.py
     volumes:
       - ./app:/src/app
       - ./data:/src/data
