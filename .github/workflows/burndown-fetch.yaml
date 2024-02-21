@@ -20,7 +20,8 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
         env: 
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.BURNDOWN_GITHUB_TOKEN }}
+          PROJECT_ID: ${{ secrets.BURNDOWN_PROJECT_ID }}
       - name: Run fetch
         run: docker compose up --build
         working-directory: ./burndown
