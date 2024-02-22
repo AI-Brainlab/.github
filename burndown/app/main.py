@@ -74,14 +74,17 @@ def fetch_issues() -> list[dict]:
         hasPreviousPage = pageInfo['hasPreviousPage']
     return issues
 
-def save_json(issues:list[dict]):
+def save_json(issues:list[dict]) -> str:
     df = pd.DataFrame.from_records(issues, index="id")
     time = datetime.now().strftime("%Y%m%d-%H%M%S")
-    df.to_csv(path_or_buf=f"/src/data/{time}.csv")
+    filename = f"/src/data/{time}.csv"
+    df.to_csv(path_or_buf=filename)
+    return filename
 
 def main():
     issues = fetch_issues()
-    save_json(issues)
+    filename = save_json(issues)
+    print(filename)
 
 
 if __name__ == "__main__":

@@ -4,9 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-gql = {extras = ["all"], version = "*"}
+gql = "*"
 pandas = "*"
 pyarrow = "*"
+aiohttp = "*"
 
 [dev-packages]
 ipykernel = "*"

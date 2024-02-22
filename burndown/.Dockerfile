@@ -1,5 +1,8 @@
 FROM python:3.10.12-bookworm
 
+ARG WORKDIR=/src/app
+WORKDIR ${WORKDIR}
+
 # https://vsupalov.com/docker-arg-env-variable-guide/
 # https://bobcares.com/blog/debian_frontendnoninteractive-docker/
 ARG DEBIAN_FRONTEND=noninteractive
@@ -20,7 +23,10 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 
-WORKDIR /src/app
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=${WORKDIR}
 
 # pipenv
 ENV PIPENV_VENV_IN_PROJECT=1
@@ -29,11 +35,13 @@ RUN pip install pipenv
 
 RUN apt install -y gh
 
-# RUN --mount=type=bind,source=./app/Pipfile,target=Pipfile,readwrite \
-#     --mount=type=bind,source=./app/Pipfile.lock,target=Pipfile.lock,readwrite \
-#     # --mount=type=cache,target=/root/.pip \
-#     pipenv install --skip-lock
+RUN --mount=type=bind,source=./app/Pipfile,target=Pipfile,readwrite \
+    --mount=type=bind,source=./app/Pipfile.lock,target=Pipfile.lock,readwrite \
+    # --mount=type=cache,target=/root/.pip \
+    pipenv install --skip-lock
+
+COPY ./app ${WORKDIR}
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-CMD tail -f /dev/null
+CMD pipenv run python3 main.py

@@ -6,12 +6,12 @@ services:
       context: .
       dockerfile: .Dockerfile
     platform: linux/amd64
-    command: pipenv run python3 main.py
+    # command: tail -f /dev/null
     volumes:
       - ./app:/src/app
       - ./data:/src/data
-      - venv:/src/app/.venv
-      - vscode-server:/root/.vscode-server
+      # - venv:/src/app/.venv
+      # - vscode-server:/root/.vscode-server
     env_file:
       - .env
 volumes:
