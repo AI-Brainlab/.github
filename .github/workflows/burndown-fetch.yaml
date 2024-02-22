@@ -31,6 +31,9 @@ jobs:
       - name: Check result
         run: ls -la data
         working-directory: ./burndown
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
       - name: Commit report
         run: |
           git add .
@@ -39,6 +42,3 @@ jobs:
           git commit -am "Automated report"
           git push
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
