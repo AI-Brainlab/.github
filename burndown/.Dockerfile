@@ -1,5 +1,9 @@
 FROM python:3.10.12-bookworm
 
+LABEL org.opencontainers.image.source=https://github.com/AI-Brainlab/.github
+LABEL org.opencontainers.image.description="Burndown fetcher"
+LABEL org.opencontainers.image.licenses=MIT
+
 ARG WORKDIR=/src/app
 WORKDIR ${WORKDIR}
 
