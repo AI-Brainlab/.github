@@ -16,12 +16,14 @@ jobs:
       
     steps:
       - uses: actions/checkout@v4
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-        env: 
-          GITHUB_TOKEN: ${{ secrets.BURNDOWN_GITHUB_TOKEN }}
-          PROJECT_ID: ${{ secrets.BURNDOWN_PROJECT_ID }}
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2.0.3
+        with:
+            envkey_GITHUB_TOKEN: ${{ secrets.BURNDOWN_GITHUB_TOKEN }}
+            envkey_PROJECT_ID: ${{ secrets.BURNDOWN_PROJECT_ID }}
+            directory: ./burndown
+            file_name: .env
+            fail_on_empty: false
       - name: Run fetch
         run: docker compose up --build
         working-directory: ./burndown
@@ -29,3 +31,6 @@ jobs:
         run: ls -la data
         working-directory: ./burndown
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
