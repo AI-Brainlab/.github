@@ -9,8 +9,6 @@ If you can not access the reposistory, contact the Organization owner.
 Organization Owner
 =========
 - Chaklam
-- Sitthiwat
-- Akraradet Sinsamersuk
 
 Document
 ========
